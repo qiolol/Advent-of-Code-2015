@@ -19,7 +19,7 @@ public class Day1 {
 
         //Reading a file
         try {
-            br = new BufferedReader(new FileReader("C:\\Java\\IntelliJIDEACommunityEdition15.0.2\\Workspace\\Advent of Code\\Day 1\\1input.txt"));
+            br = new BufferedReader(new FileReader("C:\\Java\\IntelliJIDEACommunityEdition15.0.2\\Workspace\\Advent of Code\\Day 1\\src\\1input.txt"));
             input = br.readLine();
         } catch (IOException e) {
             e.printStackTrace();
