@@ -18,7 +18,6 @@ public class Day2 {
         reader = new BufferedReader(new FileReader("C:\\Java\\IntelliJIDEACommunityEdition15.0.2\\Workspace\\Advent of Code\\Day 2\\src\\2input.txt"));
 
         while ((line = reader.readLine()) != null) {
-            System.out.println(line);
             //Splitting each line after reading it
             String[] lineParts = line.split("x");
             //Initializing dimensional values from their corresponding line parts
