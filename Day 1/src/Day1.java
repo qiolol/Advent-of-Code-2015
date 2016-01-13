@@ -40,7 +40,7 @@ public class Day1 {
         for (int i = 0; i < input.length(); i++) {
             count = (input.charAt(i) == '(') ? ++count : --count;
             if (count == -1) {
-                System.out.println("Basement entered at :" + i);
+                System.out.println("Basement entered at: " + (i + 1)); //Though i must start 0 for the math to work, index 0 is considered position 1! Hence, 1 is added to the readout.
                 break;
             }
         }
