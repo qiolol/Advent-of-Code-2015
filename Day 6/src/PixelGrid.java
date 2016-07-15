@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 public class PixelGrid extends JPanel {
 
     private BufferedImage grid;
-    private int delay = 1; // Desired delay between instruction rendering
 
     public PixelGrid() {
         grid = new BufferedImage(1000, 1000, BufferedImage.TYPE_BYTE_BINARY);
@@ -29,27 +28,22 @@ public class PixelGrid extends JPanel {
     }
 
     public void turnOff(int x1, int y1, int x2, int y2) throws InterruptedException {
-        Thread.sleep(0, delay);
         for (int x = x1; x <= x2; x++) {
             for (int y = y1; y <= y2; y++) {
                 grid.setRGB(x, y, Color.BLACK.getRGB());
             }
         }
-        //repaint();
     }
 
     public void turnOn(int x1, int y1, int x2, int y2) throws InterruptedException {
-        Thread.sleep(0, delay);
         for (int x = x1; x <= x2; x++) {
             for (int y = y1; y <= y2; y++) {
                 grid.setRGB(x, y, Color.WHITE.getRGB());
             }
         }
-        //repaint();
     }
 
     public void toggle(int x1, int y1, int x2, int y2) throws InterruptedException {
-        Thread.sleep(0, delay);
         for (int x = x1; x <= x2; x++) {
             for (int y = y1; y <= y2; y++) {
                 // For reasons, black is represented by the integer -16777216, white by -1.
@@ -63,7 +57,6 @@ public class PixelGrid extends JPanel {
                 }
             }
         }
-        //repaint();
     }
 
     // Displays this pixel grid in a window

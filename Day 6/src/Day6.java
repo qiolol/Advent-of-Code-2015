@@ -7,12 +7,16 @@ import java.io.IOException;
  */
 public class Day6 {
 
-    boolean[][] booleanGrid = new boolean[1000][1000];
+    boolean[][] booleanGrid = new boolean[1000][1000]; // For Part One
+    int[][] intGrid = new int[1000][1000]; // For Part Two
 
     public void turnOff(int x1, int y1, int x2, int y2) {
         for (int x = x1; x <= x2; x++) {
             for (int y = y1; y <= y2; y++) {
                 booleanGrid[x][y] = false;
+                if (intGrid[x][y] > 0) {
+                    intGrid[x][y]--;
+                }
             }
         }
 
@@ -22,6 +26,7 @@ public class Day6 {
         for (int x = x1; x <= x2; x++) {
             for (int y = y1; y <= y2; y++) {
                 booleanGrid[x][y] = true;
+                intGrid[x][y]++;
             }
         }
     }
@@ -32,14 +37,15 @@ public class Day6 {
                 if (booleanGrid[x][y] == true) {
                     booleanGrid[x][y] = false;
                 }
-                else if (booleanGrid[x][y] = false) {
+                else {
                     booleanGrid[x][y] = true;
                 }
+                intGrid[x][y] += 2;
             }
         }
     }
 
-    public void partOne() throws IOException, InterruptedException {
+    public void partOneAndTwo() throws IOException, InterruptedException {
         // Setting up the graphics and initializing a window
         PixelGrid aGrid = new PixelGrid();
 
@@ -51,10 +57,11 @@ public class Day6 {
 
         // Parsing line by line
         String[][] coordinateStrings = new String[2][2]; // Temporary storage of coordinate pairs as strings
-        int[][] coordinateInts = new int[2][2]; // Temporary storage of coordinate pairs as ints
         int instructionID = 0; // A number storing and dictating the type of instruction (0/1/2 for turnOff/turnOn/toggle)
+        int delay = 0; // Desired delay between instructions
 
         while ((line = reader.readLine()) != null) {
+            Thread.sleep(delay);
             if (line.startsWith("turn off")) {
                 instructionID = 0;
                 line = line.substring(9);
@@ -77,50 +84,48 @@ public class Day6 {
             coordinateStrings[0][1] = coordinateStrings[0][1].trim();
             coordinateStrings[1][0] = coordinateStrings[1][0].trim();
             coordinateStrings[1][1] = coordinateStrings[1][1].trim();
-            // Storing the strings as ints in the int array
-            coordinateInts[0][0] = Integer.valueOf(coordinateStrings[0][0]);
-            coordinateInts[0][1] = Integer.valueOf(coordinateStrings[0][1]);
-            coordinateInts[1][0] = Integer.valueOf(coordinateStrings[1][0]);
-            coordinateInts[1][1] = Integer.valueOf(coordinateStrings[1][1]);
             // Calling the appropriate method for both this and the graphics class's logic
             if (instructionID == 0) {
-                turnOff(coordinateInts[0][0], coordinateInts[0][1],
-                        coordinateInts[1][0], coordinateInts[1][1]);
-                aGrid.turnOff(coordinateInts[0][0], coordinateInts[0][1],
-                        coordinateInts[1][0], coordinateInts[1][1]);
+                turnOff(Integer.valueOf(coordinateStrings[0][0]), Integer.valueOf(coordinateStrings[0][1]),
+                        Integer.valueOf(coordinateStrings[1][0]), Integer.valueOf(coordinateStrings[1][1]));
+                aGrid.turnOff(Integer.valueOf(coordinateStrings[0][0]), Integer.valueOf(coordinateStrings[0][1]),
+                        Integer.valueOf(coordinateStrings[1][0]), Integer.valueOf(coordinateStrings[1][1]));
             }
             else if (instructionID == 1) {
-                turnOn(coordinateInts[0][0], coordinateInts[0][1],
-                        coordinateInts[1][0], coordinateInts[1][1]);
-                aGrid.turnOn(coordinateInts[0][0], coordinateInts[0][1],
-                        coordinateInts[1][0], coordinateInts[1][1]);
+                turnOn(Integer.valueOf(coordinateStrings[0][0]), Integer.valueOf(coordinateStrings[0][1]),
+                        Integer.valueOf(coordinateStrings[1][0]), Integer.valueOf(coordinateStrings[1][1]));
+                aGrid.turnOn(Integer.valueOf(coordinateStrings[0][0]), Integer.valueOf(coordinateStrings[0][1]),
+                        Integer.valueOf(coordinateStrings[1][0]), Integer.valueOf(coordinateStrings[1][1]));
             }
             else if (instructionID == 2) {
-                toggle(coordinateInts[0][0], coordinateInts[0][1],
-                        coordinateInts[1][0], coordinateInts[1][1]);
-                aGrid.toggle(coordinateInts[0][0], coordinateInts[0][1],
-                        coordinateInts[1][0], coordinateInts[1][1]);
+                toggle(Integer.valueOf(coordinateStrings[0][0]), Integer.valueOf(coordinateStrings[0][1]),
+                        Integer.valueOf(coordinateStrings[1][0]), Integer.valueOf(coordinateStrings[1][1]));
+                aGrid.toggle(Integer.valueOf(coordinateStrings[0][0]), Integer.valueOf(coordinateStrings[0][1]),
+                        Integer.valueOf(coordinateStrings[1][0]), Integer.valueOf(coordinateStrings[1][1]));
             }
             aGrid.repaint();
         }
 
-        // After processing all instructions, counting how many lights are still on
-        int onCount = 0;
+        // After processing all instructions,
+        int onCount = 0; // counting how many lights are still on for Part One
+        int brightnessCount = 0; // and the collective brightness for Part Two
 
         for (int x = 0; x < 1000; x++) {
             for (int y = 0; y < 1000; y++) {
                 if (booleanGrid[x][y]) {
                     onCount++;
                 }
+                brightnessCount += intGrid[x][y];
             }
         }
-        System.out.println(onCount + " lights are still lit.");
+        System.out.println("Part One: " + onCount + " lights are still lit.");
+        System.out.println("Part Two: " + brightnessCount + " is the total brightness of all lights.");
      }
 
     public static void main(String[] args) throws IOException, InterruptedException {
         Day6 day6 = new Day6();
 
-        day6.partOne(); // Get the party started.
+        day6.partOneAndTwo(); // Get the party started.
     }
 
 }
